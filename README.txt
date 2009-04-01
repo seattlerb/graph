@@ -5,12 +5,11 @@
 == DESCRIPTION:
 
 Graph is a type of hash that outputs in graphviz's dot format. It
-comes with a command-line interface that is easily pluggable and ships
-with plugins to graph dependencies and status of installed rubygems,
-mac ports, and freebsd ports.
+comes with a command-line interface that is easily pluggable.
 
-Leaf nodes are colored blue, outdated nodes are colored red, and
-outdated leaf nodes are purple.
+It ships with plugins to graph dependencies and status of installed
+rubygems, mac ports, and freebsd ports, coloring leaf nodes blue,
+outdated nodes red, and outdated leaf nodes purple (red+blue).
 
 == FEATURES/PROBLEMS:
 
@@ -33,7 +32,7 @@ outdated leaf nodes are purple.
     deps.attribs["RuntimeError"]  << "color = red"
     deps.prefix << "rankdir = BT" # put Exception on top
     
-    deps.save "example"
+    deps.save "exceptions"
 
 == REQUIREMENTS:
 
