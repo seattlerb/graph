@@ -1,32 +1,53 @@
 = graph
 
-* FIX (url)
+* http://rubyforge.org/projects/seattlerb
 
 == DESCRIPTION:
 
-FIX (describe your package)
+Graph is a type of hash that outputs in graphviz's dot format. It
+comes with a command-line interface that is easily pluggable and ships
+with plugins to graph dependencies and status of installed rubygems,
+mac ports, and freebsd ports.
+
+Leaf nodes are colored blue, outdated nodes are colored red, and
+outdated leaf nodes are purple.
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+* Very easy hash interface.
+* Saves to dot and automatically converts to png (or whatever).
+* edge and node attributes are easy to set.
+* bin/graph includes a caching mechanism for slower fairly static data.
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+    deps = Graph.new
+    
+    ObjectSpace.each_object Class do |mod|
+      next if mod.name =~ /Errno/
+      next unless mod < Exception
+      deps[mod.to_s] = mod.superclass.to_s
+    end
+    
+    deps.attribs["StandardError"] << "color = blue"
+    deps.attribs["RuntimeError"]  << "color = red"
+    deps.prefix << "rankdir = BT" # put Exception on top
+    
+    deps.save "example"
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+* hoe
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+* sudo gem install graph
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2009 FIX
+Copyright (c) 2009 Ryan Davis, seattle.rb
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
