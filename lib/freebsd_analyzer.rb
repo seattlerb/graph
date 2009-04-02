@@ -1,3 +1,5 @@
+require 'dep_analyzer'
+
 class FreebsdAnalyzer < DepAnalyzer
   def installed
     # don't cache so it updates every delete

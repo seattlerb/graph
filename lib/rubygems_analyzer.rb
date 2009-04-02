@@ -1,3 +1,5 @@
+require 'dep_analyzer'
+
 class RubygemsAnalyzer < DepAnalyzer
   def installed
     require 'rubygems'
