@@ -10,10 +10,10 @@ class Graph < Hash
 
   def initialize
     super { |h,k| h[k] = [] }
-    @prefix = []
+    @prefix  = []
+    @order   = []
     @attribs = Hash.new { |h,k| h[k] = [] }
-    @edge = Hash.new { |h,k| h[k] = Hash.new { |h2,k2| h2[k2] = [] } }
-    @order = []
+    @edge    = Hash.new { |h,k| h[k] = Hash.new { |h2,k2| h2[k2] = [] } }
   end
 
   def []= key, val
@@ -65,25 +65,29 @@ class Graph < Hash
     result = []
     result << "digraph absent"
     result << "  {"
+
     @prefix.each do |line|
-      result << line
+      result << "    #{line};"
     end
+
     @attribs.sort.each do |node, attribs|
-      result << "    #{node.inspect} [ #{attribs.join ','} ]"
+      result << "    #{node.inspect} [ #{attribs.join ','} ];"
     end
+
     each_pair do |from, to|
       edge = @edge[from][to].join ", "
       edge = " [ #{edge} ]" unless edge.empty?
       result << "    #{from.inspect} -> #{to.inspect}#{edge};"
     end
+
     result << "  }"
     result.join "\n"
   end
 
   def save path, type="png"
     File.open "#{path}.dot", "w" do |f|
-      f.puts self.to_s
+      f.write self.to_s
     end
-    system "dot -T#{type} #{path}.dot > #{path}.#{type}"
+    system "dot -T#{type} #{path}.dot > #{path}.#{type}" if type
   end
 end
