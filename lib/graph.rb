@@ -1,7 +1,7 @@
 #!/usr/local/bin/ruby -w
 
 class Graph < Hash
-  VERSION = '1.0.0'
+  VERSION = '1.1.0'
 
   attr_reader :attribs
   attr_reader :prefix
