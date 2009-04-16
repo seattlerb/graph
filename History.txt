@@ -1,3 +1,11 @@
+=== 1.1.0 / 2009-04-16
+
+* 3 minor enhancements:
+
+  * Don't run dot if type is nil
+  * Provide a command plugin for RubyGems, `gem graph`
+  * YAY tests
+
 === 1.0.0 / 2009-03-27
 
 * 1 major enhancement
