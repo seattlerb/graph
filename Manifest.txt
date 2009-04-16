@@ -4,8 +4,11 @@ Manifest.txt
 README.txt
 Rakefile
 bin/graph
+lib/dep_analyzer.rb
 lib/freebsd_analyzer.rb
 lib/graph.rb
 lib/macports_analyzer.rb
+lib/rubygems/commands/graph_command.rb
 lib/rubygems_analyzer.rb
+lib/rubygems_plugin.rb
 test/test_graph.rb
