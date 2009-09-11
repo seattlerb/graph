@@ -16,6 +16,6 @@ class MacportsAnalyzer < DepAnalyzer
   def deps port
     cache("#{port}.deps") {
       `port deps #{port}`
-    }.scan(/^\t(\S+)$/).flatten
+    }.scan(/Dependencies:\s*(.+)$/).join(', ').split(/, /)
   end
 end
