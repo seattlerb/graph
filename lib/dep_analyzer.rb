@@ -116,7 +116,7 @@ class DepAnalyzer < Cache
       end
     end
 
-    puts "Looks like you can nuke:\n\t#{indies.join("\n\t")}"
+    puts "Looks like you can nuke:\n\t#{indies.sort.join("\n\t")}"
 
     unless argv.empty? then
       argv.each do |pkg|
