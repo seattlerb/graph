@@ -4,9 +4,12 @@ require 'rubygems'
 require 'hoe'
 require './lib/graph.rb'
 
-Hoe.new('graph', Graph::VERSION) do |p|
-  p.rubyforge_name = 'seattlerb'
-  p.developer('Ryan Davis', 'ryand-ruby@zenspider.com')
+Hoe.plugin :seattlerb
+
+Hoe.spec 'graph' do
+  developer 'Ryan Davis', 'ryand-ruby@zenspider.com'
+
+  self.rubyforge_name = 'seattlerb'
 end
 
 # vim: syntax=Ruby

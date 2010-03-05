@@ -1,15 +1,11 @@
-require "test/unit"
+require "minitest/autorun"
 require "tmpdir"
 require "graph"
 
-class TestGraph < Test::Unit::TestCase
+class TestGraph < MiniTest::Unit::TestCase
   def setup
     @graph = Graph.new
     @graph["a"] << "b"
-  end
-
-  def test_to_s_empty
-    assert_equal util_dot, Graph.new.to_s
   end
 
   def test_delete
@@ -57,19 +53,23 @@ class TestGraph < Test::Unit::TestCase
     assert_equal expected, @graph.to_s
   end
 
-  def test_to_s_prefix
-    @graph.prefix << "blah"
-    @graph["a"] << "c"
-
-    expected = util_dot('blah', '"a" -> "b"', '"a" -> "c"')
-    assert_equal expected, @graph.to_s
-  end
-
   def test_to_s_attrib
     @graph.attribs["a"] << "color = blue"
     @graph["a"] << "c"
 
     expected = util_dot('"a" [ color = blue ]', '"a" -> "b"', '"a" -> "c"')
+    assert_equal expected, @graph.to_s
+  end
+
+  def test_to_s_empty
+    assert_equal util_dot, Graph.new.to_s
+  end
+
+  def test_to_s_prefix
+    @graph.prefix << "blah"
+    @graph["a"] << "c"
+
+    expected = util_dot('blah', '"a" -> "b"', '"a" -> "c"')
     assert_equal expected, @graph.to_s
   end
 

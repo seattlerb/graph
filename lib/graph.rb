@@ -8,45 +8,17 @@ class Graph < Hash
   attr_reader :order
   attr_reader :edge
 
-  def initialize
-    super { |h,k| h[k] = [] }
-    @prefix  = []
-    @order   = []
-    @attribs = Hash.new { |h,k| h[k] = [] }
-    @edge    = Hash.new { |h,k| h[k] = Hash.new { |h2,k2| h2[k2] = [] } }
-  end
-
   def []= key, val
     @order << key unless self.has_key? key
     super
   end
 
-  def delete key
-    @order.delete key
+  def clear
     super
-  end
-
-  def filter_size minimum
-    counts.each do |node, count|
-      next unless count < minimum
-      delete node
-    end
-  end
-
-  def each_pair
-    @order.each do |from|
-      self[from].each do |to|
-        yield from, to
-      end
-    end
-  end
-
-  def invert
-    result = self.class.new
-    each_pair do |from, to|
-      result[to] << from
-    end
-    result
+    @prefix.clear
+    @order.clear
+    @attribs.clear
+    @edge.clear
   end
 
   def counts
@@ -57,8 +29,51 @@ class Graph < Hash
     result
   end
 
+  def delete key
+    @order.delete key
+    super
+  end
+
+  def each_pair
+    @order.each do |from|
+      self[from].each do |to|
+        yield from, to
+      end
+    end
+  end
+
+  def filter_size minimum
+    counts.each do |node, count|
+      next unless count < minimum
+      delete node
+    end
+  end
+
+  def initialize
+    super { |h,k| h[k] = [] }
+    @prefix  = []
+    @order   = []
+    @attribs = Hash.new { |h,k| h[k] = [] }
+    @edge    = Hash.new { |h,k| h[k] = Hash.new { |h2,k2| h2[k2] = [] } }
+  end
+
+  def invert
+    result = self.class.new
+    each_pair do |from, to|
+      result[to] << from
+    end
+    result
+  end
+
   def keys_by_count
     counts.sort_by { |key, count| -count }.map {|key, count| key }
+  end
+
+  def save path, type="png"
+    File.open "#{path}.dot", "w" do |f|
+      f.write self.to_s
+    end
+    system "dot -T#{type} #{path}.dot > #{path}.#{type}" if type
   end
 
   def to_s
@@ -82,12 +97,5 @@ class Graph < Hash
 
     result << "  }"
     result.join "\n"
-  end
-
-  def save path, type="png"
-    File.open "#{path}.dot", "w" do |f|
-      f.write self.to_s
-    end
-    system "dot -T#{type} #{path}.dot > #{path}.#{type}" if type
   end
 end
