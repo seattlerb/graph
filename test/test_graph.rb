@@ -8,6 +8,15 @@ class TestGraph < MiniTest::Unit::TestCase
     @graph["a"] << "b"
   end
 
+  def test_clear
+    @graph.clear
+
+    assert_empty @graph.prefix,  "prefix"
+    assert_empty @graph.order,   "order"
+    assert_empty @graph.attribs, "attribs"
+    assert_empty @graph.edge,    "edge"
+  end
+
   def test_delete
     assert_equal %w(b), @graph.delete("a")
     assert_equal [], @graph.order
