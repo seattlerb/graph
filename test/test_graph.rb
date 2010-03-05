@@ -40,8 +40,45 @@ class TestGraph < MiniTest::Unit::TestCase
     assert_equal %w(d a), @graph.keys_by_count
   end
 
+  def test_normalize
+    @graph.clear
+    @graph["a"] << "b" << "b" << "b" # 3 edges from a to b
+
+    expect = { "a" => %w(b b b) }
+    assert_equal expect, @graph
+
+    @graph.normalize                 # clear all but one edge
+
+    expect = { "a" => %w(b) }
+    assert_equal expect, @graph
+  end
+
+  def test_orient
+    @graph.orient "blah"
+
+    assert_equal ["rankdir = blah"], @graph.prefix
+  end
+
+  def test_orient_default
+    @graph.orient
+
+    assert_equal ["rankdir = TB"], @graph.prefix
+  end
+
   def test_order
     assert_equal %w(a), @graph.order
+  end
+
+  def test_rotate
+    @graph.rotate "blah"
+
+    assert_equal ["rankdir = blah"], @graph.prefix
+  end
+
+  def test_rotate_default
+    @graph.rotate
+
+    assert_equal ["rankdir = LR"], @graph.prefix
   end
 
   def test_save

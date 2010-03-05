@@ -69,6 +69,29 @@ class Graph < Hash
     counts.sort_by { |key, count| -count }.map {|key, count| key }
   end
 
+  ##
+  # Specify the orientation of the graph. Defaults to the graphviz default "TB".
+
+  def orient dir = "TB"
+    prefix << "rankdir = #{dir}"
+  end
+
+  ##
+  # Really just an alias for #orient but with "LR" as the default value.
+
+  def rotate dir = "LR"
+    orient dir
+  end
+
+  ##
+  # Remove all duplicate edges.
+
+  def normalize
+    each do |k,v|
+      v.uniq!
+    end
+  end
+
   def save path, type="png"
     File.open "#{path}.dot", "w" do |f|
       f.write self.to_s
