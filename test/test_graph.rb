@@ -17,6 +17,18 @@ class TestGraph < MiniTest::Unit::TestCase
     assert_empty @graph.edge,    "edge"
   end
 
+  def test_counts
+    expect = { "a" => 1, }
+    assert_equal expect, @graph.counts
+
+    @graph["a"] << "b"
+    @graph["a"] << "c"
+    @graph["b"] << "c"
+
+    expect = { "a" => 3, "b" => 1, }
+    assert_equal expect, @graph.counts
+  end
+
   def test_delete
     assert_equal %w(b), @graph.delete("a")
     assert_equal [], @graph.order
