@@ -51,6 +51,20 @@ class Graph < Hash
     @edge.clear
   end
 
+  def nodes
+    (keys + values).flatten.uniq
+  end
+
+  def boxes
+    global_attrib "shape = box"
+  end
+
+  def global_attrib attrib
+    nodes.each do |key|
+      attribs[key] << attrib
+    end
+  end
+
   ##
   # Returns a Hash with a count of the outgoing edges for each node.
 
