@@ -51,13 +51,23 @@ class Graph < Hash
     @edge.clear
   end
 
+  ##
+  # Return all nodes (aka the set of all keys and values).
+
   def nodes
     (keys + values).flatten.uniq
   end
 
+  ##
+  # A convenience method to set every node to be a box. Especially
+  # good for longer text nodes.
+
   def boxes
     global_attrib "shape = box"
   end
+
+  ##
+  # A convenience method to set an attribute on all nodes.
 
   def global_attrib attrib
     nodes.each do |key|
