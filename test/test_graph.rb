@@ -8,6 +8,18 @@ class TestGraph < MiniTest::Unit::TestCase
     @graph["a"] << "b"
   end
 
+  def test_boxes
+    expected = util_dot('"a" -> "b"')
+    assert_equal expected, @graph.to_s
+
+    @graph.boxes
+
+    expected = util_dot('"a" [ shape = box ]',
+                        '"b" [ shape = box ]',
+                        '"a" -> "b"')
+    assert_equal expected, @graph.to_s
+  end
+
   def test_clear
     @graph.clear
 
@@ -39,6 +51,18 @@ class TestGraph < MiniTest::Unit::TestCase
     assert @graph.empty?
   end
 
+  def test_global_attrib
+    expected = util_dot('"a" -> "b"')
+    assert_equal expected, @graph.to_s
+
+    @graph.global_attrib "color = blue"
+
+    expected = util_dot('"a" [ color = blue ]',
+                        '"b" [ color = blue ]',
+                        '"a" -> "b"')
+    assert_equal expected, @graph.to_s
+  end
+
   def test_invert
     @graph["a"] << "c"
     invert = @graph.invert
@@ -50,6 +74,11 @@ class TestGraph < MiniTest::Unit::TestCase
     @graph["a"] << "c"
     @graph["d"] << "e" << "f" << "g"
     assert_equal %w(d a), @graph.keys_by_count
+  end
+
+  def test_nodes
+    assert_equal %w(a),   @graph.keys.sort
+    assert_equal %w(a b), @graph.nodes.sort
   end
 
   def test_normalize
