@@ -14,8 +14,7 @@ class TestGraph < MiniTest::Unit::TestCase
 
     @graph.boxes
 
-    expected = util_dot('"a" [ shape = box ]',
-                        '"b" [ shape = box ]',
+    expected = util_dot('node [ shape = box ]',
                         '"a" -> "b"')
     assert_equal expected, @graph.to_s
   end

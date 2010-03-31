@@ -63,7 +63,7 @@ class Graph < Hash
   # good for longer text nodes.
 
   def boxes
-    global_attrib "shape = box"
+    prefix << "node [ shape = box ]"
   end
 
   ##
