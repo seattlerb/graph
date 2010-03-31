@@ -1,3 +1,23 @@
+=== 1.2.0 / 2010-03-30
+
+* 10 minor enhancements:
+
+  * Added rake_analyzer.rb to help visualize rake dependencies. YAY!
+  * Added #boxes to convert all nodes to boxes.
+  * Added #global_attrib to set attribs on all nodes.
+  * Added #nodes to return all nodes (even if not part of from-edge).
+  * Added #normalize to remove duplicate edges.
+  * Added #orient to set graph orientation.
+  * Added #rotate as LR alias to #orient.
+  * Added full rdoc for Graph.
+  * Switched to minitest.
+  * Updated Hoe setup.
+
+* 2 bug fixes:
+
+  * Fixed inherited #clear to ensure ivars cleared as well.
+  * Fixed scanner to work with new macports deps output
+
 === 1.1.0 / 2009-04-16
 
 * 3 minor enhancements:

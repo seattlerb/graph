@@ -4,7 +4,7 @@
 # Graph is a type of hash that outputs in graphviz's dot format.
 
 class Graph < Hash
-  VERSION = '1.1.0' # :nodoc:
+  VERSION = '1.2.0' # :nodoc:
 
   ##
   # A Hash of arrays of attributes for each node. Eg:
