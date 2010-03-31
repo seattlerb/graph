@@ -15,7 +15,9 @@ class RakeAnalyzer < DepAnalyzer
         current = name
         g[current] if current # force the node to exist, in case of a leaf
       when /^\s+(.+)/
-        g[current] << $1 if current
+        dep = $1
+        next if current =~ /pkg/ and File.file? dep
+        g[current] << dep if current
       else
         warn "unparsed: #{line.chomp}"
       end
