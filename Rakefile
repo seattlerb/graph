@@ -12,4 +12,22 @@ Hoe.spec 'graph' do
   self.rubyforge_name = 'seattlerb'
 end
 
+gallery = Dir["gallery/*.rb"]
+pngs = gallery.map { |f| f.sub(/\.rb$/, ".png") }
+dots = gallery.map { |f| f.sub(/\.rb$/, ".dot") }
+
+file pngs
+file dots
+task :gallery => pngs
+
+rule ".png" => ".rb" do |t|
+  Dir.chdir "gallery" do
+    ruby "-I../lib #{File.basename t.source}"
+  end
+end
+
+task :clean do
+  rm_f Dir[*pngs] + Dir[*dots]
+end
+
 # vim: syntax=Ruby

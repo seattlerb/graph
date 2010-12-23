@@ -8,31 +8,34 @@ Graph is a type of hash that outputs in graphviz's dot format. It
 comes with a command-line interface that is easily pluggable.
 
 It ships with plugins to graph dependencies and status of installed
-rubygems, mac ports, and freebsd ports, coloring leaf nodes blue,
-outdated nodes red, and outdated leaf nodes purple (red+blue).
+rubygems, rake tasks, homebrew ports, mac ports, and freebsd ports,
+coloring leaf nodes blue, outdated nodes red, and outdated leaf nodes
+purple (red+blue).
 
 == FEATURES/PROBLEMS:
 
-* Very easy hash interface.
-* Saves to dot and automatically converts to png (or whatever).
-* edge and node attributes are easy to set.
+* Very clean DSL interface and API.
+* Saves to dot and can automatically convert to png (or whatever).
+* graph, edge, and node attributes are easy to set.
 * bin/graph includes a caching mechanism for slower fairly static data.
 
 == SYNOPSIS:
 
-    deps = Graph.new
-    
-    ObjectSpace.each_object Class do |mod|
-      next if mod.name =~ /Errno/
-      next unless mod < Exception
-      deps[mod.to_s] = mod.superclass.to_s
+    digraph do
+      # many ways to access/create edges and nodes
+      edge "a", "b"
+      self["b"]["c"]
+      node("c") >> "a"
+
+      square   << node("a")
+      triangle << node("b")
+
+      red   << node("a") << edge("a", "b")
+      green << node("b") << edge("b", "c")
+      blue  << node("c") << edge("c", "a")
+
+      save "simple_example", "png"
     end
-    
-    deps.attribs["StandardError"] << "color = blue"
-    deps.attribs["RuntimeError"]  << "color = red"
-    deps.prefix << "rankdir = BT" # put Exception on top
-    
-    deps.save "exceptions"
 
 == REQUIREMENTS:
 
@@ -46,7 +49,7 @@ outdated nodes red, and outdated leaf nodes purple (red+blue).
 
 (The MIT License)
 
-Copyright (c) 2009 Ryan Davis, seattle.rb
+Copyright (c) Ryan Davis, seattle.rb
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

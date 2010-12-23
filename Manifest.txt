@@ -4,9 +4,15 @@ Manifest.txt
 README.txt
 Rakefile
 bin/graph
+gallery/cluster.rb
+gallery/fsm.rb
+gallery/ruby_exceptions.rb
+gallery/simple_example.rb
+gallery/unix.rb
 lib/dep_analyzer.rb
 lib/freebsd_analyzer.rb
 lib/graph.rb
+lib/homebrew_analyzer.rb
 lib/macports_analyzer.rb
 lib/rake_analyzer.rb
 lib/rubygems/commands/graph_command.rb
