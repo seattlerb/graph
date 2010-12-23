@@ -76,12 +76,32 @@ class Hash
 end
 
 class DepAnalyzer < Cache
+  attr_accessor :g
+
   def initialize
     super ".#{self.class}.cache"
+    @g = Graph.new
+  end
+
+  def decorate
+    # nothing to do by default
+  end
+
+  def deps port
+    raise NotImplementedError, "subclass responsibility"
+  end
+
+  def installed
+    raise NotImplementedError, "subclass responsibility"
+  end
+
+  def outdated
+    raise NotImplementedError, "subclass responsibility"
   end
 
   def run(argv = ARGV)
-    g = Graph.new
+    setup
+
     ports = {}
     installed.each do |port|
       ports[port] = nil
@@ -104,17 +124,24 @@ class DepAnalyzer < Cache
       ports[port] = deps
     end
 
+    blue   = g.color "blue"
+    purple = g.color "purple4"
+    red    = g.color "red"
+
     indies = ports.keys - ports.minvert.keys
     indies.each do |k|
-      g.attribs[k] << "color = blue"
+      blue << g[k]
     end
+
     old.each do |k,v|
       if indies.include? k then
-        g.attribs[k] << "color = purple4"
+        purple << g[k]
       else
-        g.attribs[k] << "color = red"
+        red << g[k]
       end
     end
+
+    decorate
 
     puts "Looks like you can nuke:\n\t#{indies.sort.join("\n\t")}"
 
@@ -133,8 +160,11 @@ class DepAnalyzer < Cache
       end
     end
 
-    g.save "#{self.class}"
-    system "open #{self.class}.png"
+    g.save "#{self.class}", "png"
+  end
+
+  def setup
+    # nothing to do by default
   end
 end
 

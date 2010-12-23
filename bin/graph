@@ -1,4 +1,7 @@
-#!/usr/bin/env ruby -w
+#!/usr/bin/env ruby -ws
+
+$o ||= false
+$d ||= false
 
 type     = (ARGV.shift || "macports")
 
@@ -7,3 +10,5 @@ require "#{type}_analyzer"
 klass    = Object.const_get "#{type.capitalize}Analyzer"
 analyzer = klass.new
 analyzer.run
+
+system "open #{type.capitalize}Analyzer.#{$d ? "dot" : "png"}" if $o

@@ -2,30 +2,27 @@ require 'dep_analyzer'
 
 class RakeAnalyzer < DepAnalyzer
   def run
-    require 'graph'
-    g = Graph.new
-    g.rotate
+    digraph do
+      rotate
+      boxes
 
-    current = nil
-    `rake -P -s`.each_line do |line|
-      case line
-      when /^rake (.+)/
-        name = $1
-        # current = (name =~ /pkg/) ? nil : name
-        current = name
-        g[current] if current # force the node to exist, in case of a leaf
-      when /^\s+(.+)/
-        dep = $1
-        next if current =~ /pkg/ and File.file? dep
-        g[current] << dep if current
-      else
-        warn "unparsed: #{line.chomp}"
+      current = nil
+      `rake -P -s`.each_line do |line|
+        case line
+        when /^rake (.+)/
+          name = $1
+          current = name
+          node current if current
+        when /^\s+(.+)/
+          dep = $1
+          next if current =~ /pkg/ and File.file? dep
+          edge current, dep if current
+        else
+          warn "unparsed: #{line.chomp}"
+        end
       end
+
+      save "RakeAnalyzer", "png"
     end
-
-
-    g.boxes
-    g.save "#{self.class}"
-    system "open #{self.class}.png"
   end
 end
