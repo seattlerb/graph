@@ -1,3 +1,39 @@
+=== 2.0.0 / 2010-12-24
+
+* 1 major enhancement:
+
+  * Graph is completely rewritten. It is no longer a Hash subclass.
+    Not backwards compatible! 147.3% more awesome.
+
+* 27 minor enhancements:
+
+  * #save now defaults type to nil, pass "png" or whatever if you want an image.
+  * Added DepAnalyzer#decorate
+  * Added DepAnalyzer#setup
+  * Added Graph::Node and Graph::Edge to formalize the relationships.
+  * Added Graph#color(name), #shape(name), #style(name).
+  * Added Graph#colorscheme and #fillcolor.
+  * Added Graph#edge(name1, name2, name3 ...)
+  * Added Graph#font.
+  * Added Graph#label(name), Node#label(name) and Edge#label(name).
+  * Added Graph#node(name, label = nil)
+  * Added Graph#node_attribs and Graph#edge_attribs.
+  * Added Graph#subgraphs and Graph#<<(subgraph).
+  * Added Graph::Attribute with ability to decorate: red << node << edge
+  * Added a gallery of examples and a rake task to run them all.
+  * Added digraph { ... subgraph { ... } ... } DSL.
+  * Added homebrew dependency analyzer.
+  * Added shortcut methods for all styles, shapes, and the major colors.
+  * Added support for subgraphs: graph << subgraph.
+  * Insert-order is no longer maintained... this _may_ cause problems.
+  * Node#>> defined so the arrows can point the same way as in dot: n1 >> n2
+  * Removed Graph#prefix in favor of the more structured accessors.
+  * Renamed Graph#attribs to Graph#graph_attribs and it is now graph only.
+  * RubygemsAnalyzer now draws developer dependencies gray.
+  * RubygemsAnalyzer now has -a to graph all dependencies even if not installed.
+  * graph tool no longer opens by default.
+  * graph tool now has -o to `open` the output and -d to switch to the dotfile.
+
 === 1.2.0 / 2010-03-30
 
 * 10 minor enhancements:
