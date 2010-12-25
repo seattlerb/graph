@@ -83,11 +83,9 @@ class Graph
   attr_reader :nodes
 
   ##
-  # An array of attributes to add to the front of the graph source. Eg:
-  #
-  #   graph.prefix << "ratio = 1.5"
+  # An array of subgraphs.
 
-  attr_reader :prefix
+  attr_reader :subgraphs
 
   ##
   # Creates a new graph object. Optional name and parent graph are
@@ -101,10 +99,10 @@ class Graph
     @edges  = Hash.new { |h,k|
       h[k] = Hash.new { |h2, k2| h2[k2] = Edge.new self, self[k], self[k2] }
     }
-    @prefix = []
     @graph_attribs = []
     @node_attribs  = []
     @edge_attribs  = []
+    @subgraphs     = []
 
     instance_eval(&block) if block
   end
@@ -113,7 +111,7 @@ class Graph
   # Push a subgraph into the current graph. Sets the subgraph's graph to self.
 
   def << subgraph
-    prefix << subgraph
+    subgraphs << subgraph
     subgraph.graph = self
   end
 
@@ -123,11 +121,6 @@ class Graph
   def [] name
     nodes[name]
   end
-
-  ##
-  # Access a node by name
-
-  alias :node :[]
 
   ##
   # A convenience method to set the global node attributes to use boxes.
@@ -141,6 +134,13 @@ class Graph
 
   def color color
     Attribute.new "color = #{color}"
+  end
+
+  ##
+  # Shortcut method to create a new colorscheme Attribute instance.
+
+  def colorscheme name
+    Attribute.new "colorscheme = #{name}"
   end
 
   ##
@@ -176,10 +176,35 @@ class Graph
   end
 
   ##
+  # Shortcut method to create a new fillcolor Attribute instance.
+
+  def fillcolor n
+    Attribute.new "fillcolor = #{n}"
+  end
+
+  ##
+  # Shortcut method to create a new font Attribute instance. You can
+  # pass in both the name and an optional font size.
+
+  def font name, size=nil
+    Attribute.new "fontname = #{name.inspect}" +
+      (size ? ", fontsize = #{size}" : "")
+  end
+
+  ##
   # Shortcut method to set the graph's label. Usually used with subgraphs.
 
   def label name
     graph_attribs << "label = \"#{name}\""
+  end
+
+  ##
+  # Access a node by name, supplying an optional label
+
+  def node name, label = nil
+    n = nodes[name]
+    n.label label if label
+    n
   end
 
   ##
@@ -240,10 +265,6 @@ class Graph
     result << "#{type} #{name}"
     result << "  {"
 
-    prefix.each do |line|
-      result << "    #{line};"
-    end
-
     graph_attribs.each do |line|
       result << "    #{line};"
     end
@@ -254,6 +275,10 @@ class Graph
 
     unless edge_attribs.empty? then
       result << "    edge [ #{edge_attribs.join(", ")} ];"
+    end
+
+    subgraphs.each do |line|
+      result << "    #{line};"
     end
 
     nodes.each do |name, node|
@@ -350,6 +375,13 @@ class Graph
 
     def initialize graph, name
       super graph, name, []
+    end
+
+    ##
+    # Shortcut method to set the node's label.
+
+    def label name
+      attributes << "label = #{name.inspect}"
     end
 
     ##

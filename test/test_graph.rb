@@ -35,6 +35,23 @@ class TestGraph < MiniTest::Unit::TestCase
     assert_graph graph, 'node [ shape = box ]', '"a" -> "b"'
   end
 
+  def test_colorscheme
+    assert_attribute "colorscheme", "blah", graph.colorscheme("blah")
+  end
+
+  def test_fillcolor
+    assert_attribute "fillcolor", "blah", graph.fillcolor("blah")
+  end
+
+  def test_font
+    assert_attribute "fontname", '"blah"', graph.font("blah")
+  end
+
+  def test_font_size
+    # cheating... but I didn't want to write a more complex assertion
+    assert_attribute "fontname", '"blah", fontsize = 12', graph.font("blah", 12)
+  end
+
   def test_digraph
     g = digraph do
       edge "a", "b", "c"
@@ -71,7 +88,7 @@ class TestGraph < MiniTest::Unit::TestCase
     graph << subgraph
 
     assert_equal graph, subgraph.graph
-    assert_includes graph.prefix, subgraph
+    assert_includes graph.subgraphs, subgraph
   end
 
   def test_nodes
@@ -159,10 +176,23 @@ class TestGraph < MiniTest::Unit::TestCase
     assert_graph graph, 'node [ blah, halb ]', '"a" -> "b"'
   end
 
-  def test_to_s_prefix
-    graph.prefix << "blah"
+  def test_to_s_subgraph
+    g = Graph.new "subgraph" do
+      edge "a", "c"
+    end
 
-    assert_graph graph, 'blah', '"a" -> "b"'
+    graph << g
+
+g_s = "subgraph subgraph
+  {
+    \"a\";
+    \"c\";
+    \"a\" -> \"c\";
+  }"
+
+    assert_graph(graph,
+                 g_s, # HACK: indentation is really messy right now
+                 '"a" -> "b"')
   end
 
   def util_save type
@@ -245,6 +275,12 @@ class TestNode < MiniTest::Unit::TestCase
     assert_kind_of Graph::Node, to
     assert_equal n, e.from
     assert_equal to, e.to
+  end
+
+  def test_label
+    n.label "blah"
+
+    assert_equal ["label = \"blah\""], n.attributes
   end
 
   def test_to_s
