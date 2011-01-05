@@ -12,6 +12,15 @@ rubygems, rake tasks, homebrew ports, mac ports, and freebsd ports,
 coloring leaf nodes blue, outdated nodes red, and outdated leaf nodes
 purple (red+blue).
 
+OSX quick tip: 
+
+    % sudo gem install graph
+    % sudo brew install graphviz
+    % gem unpack graph
+    % cd graph*
+    % rake gallery
+    % open gallery/*.png
+
 == FEATURES/PROBLEMS:
 
 * Very clean DSL interface and API.
