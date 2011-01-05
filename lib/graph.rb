@@ -1,5 +1,7 @@
 #!/usr/local/bin/ruby -w
 
+require "enumerator"
+
 ##
 # Graph models directed graphs and subgraphs and outputs in graphviz's
 # dot format.

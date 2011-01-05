@@ -7,7 +7,7 @@ class RakeAnalyzer < DepAnalyzer
       boxes
 
       current = nil
-      `rake -P -s`.each_line do |line|
+      `ruby -I#{$:.join File::PATH_SEPARATOR} -S rake -P -s`.each_line do |line|
         case line
         when /^rake (.+)/
           name = $1
