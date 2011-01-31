@@ -7,7 +7,9 @@ class RakeAnalyzer < DepAnalyzer
       boxes
 
       current = nil
-      `ruby -I#{$:.join File::PATH_SEPARATOR} -S rake -P -s`.each_line do |line|
+      rake = Gem.bin_path('rake', 'rake') rescue 'rake'
+
+      `#{Gem.ruby} -I#{$:.join File::PATH_SEPARATOR} -S #{rake} -P -s`.each_line do |line|
         case line
         when /^rake (.+)/
           name = $1
