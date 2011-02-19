@@ -7,7 +7,7 @@ require "enumerator"
 # dot format.
 
 class Graph
-  VERSION = "2.0.0" # :nodoc:
+  VERSION = "2.0.1" # :nodoc:
 
   LIGHT_COLORS = %w(gray lightblue lightcyan lightgray lightpink
                     lightslategray lightsteelblue white)
@@ -230,7 +230,7 @@ class Graph
 
   def save path, type = nil
     File.open "#{path}.dot", "w" do |f|
-      f.write self.to_s
+      f.puts self.to_s
     end
     system "dot -T#{type} #{path}.dot > #{path}.#{type}" if type
   end
@@ -284,7 +284,7 @@ class Graph
     end
 
     nodes.each do |name, node|
-      result << "    #{node};" if graph or not node.attributes.empty?
+      result << "    #{node};" if graph or node.attributes?
     end
 
     edges.each do |from, deps|
@@ -334,24 +334,47 @@ class Graph
     end
   end
 
+  class Thingy < Struct.new :graph, :attributes
+    def initialize graph
+      super graph, []
+    end
+
+    def initialize_copy other # :nodoc:
+      super
+      self.attributes = other.attributes.dup
+    end
+
+    ##
+    # Shortcut method to set the label attribute.
+
+    def label name
+      attributes.reject! { |s| s =~ /^label =/ }
+      attributes << "label = \"#{name}\""
+      self
+    end
+
+    ##
+    # Does this thing have attributes?
+
+    def attributes?
+      not self.attributes.empty?
+    end
+  end
+
   ##
   # An edge in a graph.
 
-  class Edge < Struct.new :graph, :from, :to, :attributes
+  class Edge < Thingy
+
+    attr_accessor :from, :to
 
     ##
     # Create a new edge in +graph+ from +from+ to +to+.
 
     def initialize graph, from, to
-      super graph, from, to, []
-    end
-
-    ##
-    # Shortcut method to set the label attribute on an edge.
-
-    def label name
-      attributes << "label = \"#{name}\""
-      self
+      super graph
+      self.from = from
+      self.to = to
     end
 
     ##
@@ -359,10 +382,10 @@ class Graph
 
     def to_s
       fromto = "%p -> %p" % [from.name, to.name]
-      if attributes.empty? then
-        fromto
-      else
+      if self.attributes? then
         "%-20s [ %-20s ]" % [fromto, attributes.join(',')]
+      else
+        fromto
       end
     end
   end
@@ -370,20 +393,16 @@ class Graph
   ##
   # Nodes in the graph.
 
-  class Node < Struct.new :graph, :name, :attributes
+  class Node < Thingy
+
+    attr_accessor :name
 
     ##
     # Create a new Node. Takes a parent graph and a name.
 
     def initialize graph, name
-      super graph, name, []
-    end
-
-    ##
-    # Shortcut method to set the node's label.
-
-    def label name
-      attributes << "label = #{name.inspect}"
+      super graph
+      self.name = name
     end
 
     ##
@@ -408,10 +427,10 @@ class Graph
     # Returns the node in dot syntax.
 
     def to_s
-      if attributes.empty? then
-        "#{name.inspect}"
-      else
+      if self.attributes? then
         "%-20p [ %-20s ]" % [name, attributes.join(',')]
+      else
+        "#{name.inspect}"
       end
     end
   end

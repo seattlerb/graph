@@ -206,7 +206,7 @@ g_s = "subgraph subgraph
 
     graph.save(path, type)
 
-    assert_equal graph.to_s, File.read("#{path}.dot")
+    assert_equal graph.to_s + "\n", File.read("#{path}.dot")
     expected = ["dot -T#{type} #{path}.dot > #{path}.png"] if type
     assert_equal expected, $x
   ensure
