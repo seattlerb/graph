@@ -1,5 +1,10 @@
 === 2.0.1 / 2011-02-18
 
+* 2 minor enhancements:
+
+  * Slightly improved output.
+  * Refactored Node and Edgue under Thingy.
+
 * 2 bug fixes:
 
   * Expanded out subcall to rake to include current load path
