@@ -3,12 +3,16 @@
 $o ||= false
 $d ||= false
 
-type     = (ARGV.shift || "macports")
+type = ARGV.shift
+abort "#{File.basename $0}: Need a type" unless type
 
 require "#{type}_analyzer"
 
-klass    = Object.const_get "#{type.capitalize}Analyzer"
+name     = "#{type.capitalize}Analyzer"
+klass    = Object.const_get name
 analyzer = klass.new
-analyzer.run
+graph    = analyzer.run
 
-system "open #{type.capitalize}Analyzer.#{$d ? "dot" : "png"}" if $o
+graph.save name, $d ? nil : "png"
+
+system "open #{name}.#{$d ? "dot" : "png"}" if $o

@@ -160,7 +160,7 @@ class DepAnalyzer < Cache
       end
     end
 
-    g.save "#{self.class}", "png"
+    g
   end
 
   def setup

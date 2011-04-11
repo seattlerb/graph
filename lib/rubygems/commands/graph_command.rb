@@ -8,7 +8,8 @@ class Gem::Commands::GraphCommand < Gem::Command
   end
 
   def execute
-    RubygemsAnalyzer.new.run options[:args]
+    g = RubygemsAnalyzer.new.run options[:args]
+    g.save "RubygemsAnalyzer", "png"
 
     say "Graph saved to:\n\tRubygemsAnalyzer.png"
   end

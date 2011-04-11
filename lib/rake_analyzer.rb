@@ -1,3 +1,4 @@
+require "rubygems"
 require 'dep_analyzer'
 
 class RakeAnalyzer < DepAnalyzer
@@ -8,8 +9,9 @@ class RakeAnalyzer < DepAnalyzer
 
       current = nil
       rake = Gem.bin_path('rake', 'rake') rescue 'rake'
+      path = $:.join File::PATH_SEPARATOR
 
-      `#{Gem.ruby} -I#{$:.join File::PATH_SEPARATOR} -S #{rake} -P -s`.each_line do |line|
+      `#{Gem.ruby} -I#{path} -S #{rake} -P -s`.each_line do |line|
         case line
         when /^rake (.+)/
           name = $1
@@ -23,8 +25,6 @@ class RakeAnalyzer < DepAnalyzer
           warn "unparsed: #{line.chomp}"
         end
       end
-
-      save "RakeAnalyzer", "png"
     end
   end
 end
