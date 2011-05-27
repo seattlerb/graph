@@ -12,17 +12,18 @@ class RubygemsAnalyzer < DepAnalyzer
   def installed
     # don't cache so it updates every delete
     puts "scanning installed rubygems"
-    Gem.source_index.gems.values.map { |gem| gem.name }.sort
+    Gem::Specification.map(&:name).sort
   end
 
   def outdated
     # don't cache so it updates every delete
     puts "scanning outdated rubygems"
-    Gem.source_index.outdated.sort
+    Gem::Specification.outdated.sort
   end
 
-  def deps gem
-    Gem.source_index.find_name(gem).first.dependencies.map { |dep| dep.name }
+  def deps gem_name
+    gem = Gem::Specification.find_by_name gem_name
+    gem.dependencies
   end
 
   def decorate
@@ -31,7 +32,7 @@ class RubygemsAnalyzer < DepAnalyzer
     installed = self.installed
 
     installed.each do |gem|
-      deps = Gem.source_index.find_name(gem).first.dependencies
+      deps = self.deps gem
 
       deps.each do |dep|
         next if dep.type == :runtime
