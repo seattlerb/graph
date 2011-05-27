@@ -1,3 +1,16 @@
+=== 2.1.0 / 2011-05-26
+
+* 3 minor enhancements:
+
+  * If bin/graph isn't given a type, list them and exit.
+  * Updated RubygemsAnalyzer to work with new API.
+  * `graph` command no longer defaults to any analyzer.
+
+* 2 bug fixes:
+
+  * Escape newlines in labels. (rohitn)
+  * Refactored all saving code to bin/graph for clarity.
+
 === 2.0.1 / 2011-02-18
 
 * 2 minor enhancements:
