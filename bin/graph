@@ -4,7 +4,15 @@ $o ||= false
 $d ||= false
 
 type = ARGV.shift
-abort "#{File.basename $0}: Need a type" unless type
+unless type then
+  require "rubygems"
+
+  hits = Gem.find_files("*_analyzer.rb").map { |s|
+    File.basename s, "_analyzer.rb"
+  } - %w(dep)
+
+  abort "#{File.basename $0}: Need a type: #{hits.join(", ")}"
+end
 
 require "#{type}_analyzer"
 
