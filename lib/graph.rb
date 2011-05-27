@@ -197,7 +197,7 @@ class Graph
   # Shortcut method to set the graph's label. Usually used with subgraphs.
 
   def label name
-    graph_attribs << "label = \"#{name}\""
+    graph_attribs << "label = \"#{name.gsub(/\n/, '\n')}\""
   end
 
   ##
@@ -349,7 +349,7 @@ class Graph
 
     def label name
       attributes.reject! { |s| s =~ /^label =/ }
-      attributes << "label = \"#{name}\""
+      attributes << "label = \"#{name.gsub(/\n/, '\n')}\""
       self
     end
 

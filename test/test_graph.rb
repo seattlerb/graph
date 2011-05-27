@@ -82,6 +82,12 @@ class TestGraph < MiniTest::Unit::TestCase
     assert_graph graph, 'label = "blah"', '"a" -> "b"'
   end
 
+  def test_label_newline
+    graph.label "blah\nblah"
+
+    assert_graph graph, 'label = "blah\\nblah"', '"a" -> "b"'
+  end
+
   def test_left_shift
     subgraph = Graph.new "blah"
 
@@ -283,6 +289,12 @@ class TestNode < MiniTest::Unit::TestCase
     assert_equal ["label = \"blah\""], n.attributes
   end
 
+  def test_label_newline
+    n.label "blah\nblah"
+
+    assert_equal ["label = \"blah\\nblah\""], n.attributes
+  end
+
   def test_to_s
     assert_equal '"n"', n.to_s
   end
@@ -307,6 +319,12 @@ class TestEdge < MiniTest::Unit::TestCase
     e.label "blah"
 
     assert_equal ["label = \"blah\""], e.attributes
+  end
+
+  def test_label_newline
+    e.label "blah\nblah"
+
+    assert_equal ["label = \"blah\\nblah\""], e.attributes
   end
 
   def test_to_s
