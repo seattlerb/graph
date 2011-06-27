@@ -1,6 +1,6 @@
 = graph
 
-* http://rubyforge.org/projects/seattlerb
+home :: https://github.com/seattlerb/graph
 
 == DESCRIPTION:
 
