@@ -27,6 +27,22 @@ class Graph
                  "dodgerblue", "sienna", "limegreen", "royalblue",
                  "darkorange", "blue"]
 
+  ##
+  # Defines the brewer color schemes and the maximum number of colors
+  # in each set.
+
+  COLOR_SCHEME_MAX = {
+    :accent   => 8,  :blues    => 9,  :brbg     => 11, :bugn     => 9,
+    :dark2    => 8,  :gnbu     => 9,  :greens   => 9,  :greys    => 9,
+    :oranges  => 9,  :orrd     => 9,  :paired   => 12, :pastel1  => 9,
+    :pastel2  => 8,  :piyg     => 11, :prgn     => 11, :pubu     => 9,
+    :pubugn   => 9,  :puor     => 11, :purd     => 9,  :purples  => 9,
+    :rdbu     => 11, :rdgy     => 11, :rdylbu   => 11, :rdylgn   => 11,
+    :reds     => 9,  :set1     => 9,  :set2     => 8,  :set3     => 12,
+    :spectral => 11, :ylgn     => 9,  :ylgnbu   => 9,  :ylorbr   => 9,
+    :ylorrd   => 9
+  }
+
   SHAPES = %w(Mcircle Mdiamond Msquare box box3d circle component
               diamond doublecircle doubleoctagon egg ellipse folder
               hexagon house invhouse invtrapezium invtriangle none
@@ -139,10 +155,27 @@ class Graph
   end
 
   ##
-  # Shortcut method to create a new colorscheme Attribute instance.
+  # Shortcut method to create a new colorscheme Attribute instance. If
+  # passed +n+, +name+ must match one of the brewer color scheme names
+  # and it will generate accessors for each fillcolor as well as push
+  # the colorscheme onto the node_attribs.
 
-  def colorscheme name
-    Attribute.new "colorscheme = #{name}"
+  def colorscheme name, n = nil
+    scheme = Attribute.new "colorscheme = #{name}#{n}"
+    max = COLOR_SCHEME_MAX[name.to_sym]
+
+    if max then
+      node_attribs << scheme
+
+      mc = (class << self; self; end)
+
+      (1..n).map { |m|
+        mc.send :attr_accessor, "c#{m}"
+        self.send "c#{m}=", Graph::Attribute.new("fillcolor = #{m}")
+      }
+    end
+
+    scheme
   end
 
   ##
