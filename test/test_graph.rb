@@ -165,6 +165,17 @@ class TestGraph < MiniTest::Unit::TestCase
     assert_equal 42, n
   end
 
+  def test_cluster
+    n = nil
+    s = graph.cluster "blah" do
+      n = 42
+    end
+
+    assert_equal graph, s.graph
+    assert_equal "cluster_blah", s.name
+    assert_equal 42, n
+  end
+
   def test_to_s
     assert_graph graph, '"a" -> "b"'
 

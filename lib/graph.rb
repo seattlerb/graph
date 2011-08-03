@@ -291,6 +291,15 @@ class Graph
   end
 
   ##
+  # Shortcut method to create a clustered subgraph in the current
+  # graph. Use with the top-level +digraph+ method in block form for a
+  # graph DSL.
+
+  def cluster name, &block
+    subgraph "cluster_#{name}", &block
+  end
+
+  ##
   # Outputs a graphviz graph.
 
   def to_s
