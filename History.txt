@@ -1,3 +1,15 @@
+=== 2.2.0 / 2011-08-12
+
+* 3 minor enhancements:
+
+  * Added brewer color scheme support: colorscheme(:reds, 5) creates c1 - c5.
+  * Added cluster subgraph shortcut
+  * added Node.connected? and Node.orphan?
+
+* 1 bug fix:
+
+  * Fixed output of single node graphs. (aja)
+
 === 2.1.0 / 2011-05-26
 
 * 3 minor enhancements:
