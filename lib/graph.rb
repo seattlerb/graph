@@ -326,7 +326,7 @@ class Graph
     end
 
     nodes.each do |name, node|
-      result << "    #{node};" if graph or node.attributes?
+      result << "    #{node};" if graph or node.attributes? or node.orphan?
     end
 
     edges.each do |from, deps|
@@ -438,6 +438,17 @@ class Graph
   class Node < Thingy
 
     attr_accessor :name
+
+    def connected?
+      node = self.name
+      edges = graph.edges
+
+      edges.include?(name) or edges.any? { |from, deps| deps.include? name }
+    end
+
+    def orphan?
+      not connected?
+    end
 
     ##
     # Create a new Node. Takes a parent graph and a name.

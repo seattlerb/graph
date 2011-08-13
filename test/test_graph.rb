@@ -1,3 +1,4 @@
+require "rubygems"
 require "minitest/autorun"
 require "tmpdir"
 require "graph"
@@ -88,6 +89,19 @@ class TestGraph < MiniTest::Unit::TestCase
     assert_equal %w(a), invert.edges["b"].keys
     assert_equal %w(a), invert.edges["c"].keys
   end
+
+  def test_node_orphan
+    exp = 'digraph { "B"; }'
+
+    y = digraph do node "B" end
+
+    assert_equal exp, y.to_s.gsub(/\s+/m, " ")
+
+    z = digraph do self["B"] end
+
+    assert_equal exp, z.to_s.gsub(/\s+/m, " ")
+  end
+
 
   def test_label
     graph.label "blah"
@@ -277,6 +291,34 @@ class TestNode < MiniTest::Unit::TestCase
 
   def setup
     self.n = Graph::Node.new :graph, "n"
+  end
+
+  def test_connected_eh
+    graph = Graph.new
+    self.n = graph.node "n"
+    m = graph.node "m"
+
+    refute n.connected?
+    refute m.connected?
+
+    graph.edge("n", "m")
+
+    assert n.connected?
+    assert m.connected?
+  end
+
+  def test_orphan_eh
+    graph = Graph.new
+    self.n = graph.node "n"
+    m = graph.node "m"
+
+    assert n.orphan?
+    assert m.orphan?
+
+    graph.edge("n", "m")
+
+    refute n.orphan?
+    refute m.orphan?
   end
 
   def test_rshift
