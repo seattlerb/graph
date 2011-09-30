@@ -39,7 +39,6 @@ class TestGraph < MiniTest::Unit::TestCase
   def test_colorscheme
     assert_attribute "colorscheme", "blah", graph.colorscheme("blah")
     assert_empty graph.node_attribs
-    refute_respond_to graph, :c1
   end
 
   def test_colorscheme_n

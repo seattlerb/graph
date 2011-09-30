@@ -52,6 +52,25 @@ class Graph
 
   STYLES = %w(dashed dotted solid invis bold filled diagonals rounded)
 
+  # arrowname : aname [ aname [ aname [ aname ] ] ]
+  # aname     : [ modifiers ] shape
+  # modifiers : [ 'o' ] [ side ]
+  # side      : 'l'
+  #           | 'r'
+  # shape     : box
+  #           | crow
+  #           | diamond
+  #           | dot
+  #           | inv
+  #           | none
+  #           | normal
+  #           | tee
+  #           | vee
+
+  ARROW_RE = /(?:o?[lr]?(?:box|crow|diamond|dot|inv|none|normal|tee|vee)){1,4}/
+
+  ARROWS = %w(box crow diamond dot inv none normal tee vee)
+
   STYLES.each do |name|
     define_method(name) { style name }
   end
@@ -61,7 +80,13 @@ class Graph
   end
 
   SHAPES.each do |name|
-    define_method(name.downcase) { shape name }
+    method_name = name.downcase.sub(/none/, 'shape_none')
+    define_method(method_name) { shape name }
+  end
+
+  ARROWS.each do |name|
+    method_name = name.sub(/none/, 'arrow_none')
+    define_method(method_name) { arrowhead name }
   end
 
   ##
@@ -122,6 +147,9 @@ class Graph
     @edge_attribs  = []
     @subgraphs     = []
 
+    self.scheme = graph.scheme if graph
+    node_attribs << scheme if scheme
+
     instance_eval(&block) if block
   end
 
@@ -138,6 +166,20 @@ class Graph
 
   def [] name
     nodes[name]
+  end
+
+  def arrowhead shape
+    raise ArgumentError, "Bad arrow shape: #{shape}" unless shape =~ ARROW_RE
+    Attribute.new "arrowhead = #{shape}"
+  end
+
+  def arrowtail shape
+    raise ArgumentError, "Bad arrow shape: #{shape}" unless shape =~ ARROW_RE
+    Attribute.new "arrowtail = #{shape}"
+  end
+
+  def arrowsize size
+    Attribute.new "arrowsize = #{size}"
   end
 
   ##
@@ -160,23 +202,22 @@ class Graph
   # and it will generate accessors for each fillcolor as well as push
   # the colorscheme onto the node_attribs.
 
+  attr_accessor :scheme
+
   def colorscheme name, n = nil
-    scheme = Attribute.new "colorscheme = #{name}#{n}"
+    self.scheme = Attribute.new "colorscheme = #{name}#{n}"
     max = COLOR_SCHEME_MAX[name.to_sym]
 
-    if max then
-      node_attribs << scheme
-
-      mc = (class << self; self; end)
-
-      (1..n).map { |m|
-        mc.send :attr_accessor, "c#{m}"
-        self.send "c#{m}=", Graph::Attribute.new("fillcolor = #{m}")
-      }
-    end
+    node_attribs << scheme if max
 
     scheme
   end
+
+  (1..COLOR_SCHEME_MAX.values.max).map { |m|
+    define_method "c#{m}" do
+      Graph::Attribute.new("fillcolor = #{m}")
+    end
+  }
 
   ##
   # Define one or more edges.
