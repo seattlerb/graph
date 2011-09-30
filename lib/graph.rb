@@ -52,21 +52,6 @@ class Graph
 
   STYLES = %w(dashed dotted solid invis bold filled diagonals rounded)
 
-  # arrowname : aname [ aname [ aname [ aname ] ] ]
-  # aname     : [ modifiers ] shape
-  # modifiers : [ 'o' ] [ side ]
-  # side      : 'l'
-  #           | 'r'
-  # shape     : box
-  #           | crow
-  #           | diamond
-  #           | dot
-  #           | inv
-  #           | none
-  #           | normal
-  #           | tee
-  #           | vee
-
   ARROW_RE = /(?:o?[lr]?(?:box|crow|diamond|dot|inv|none|normal|tee|vee)){1,4}/
 
   ARROWS = %w(box crow diamond dot inv none normal tee vee)
