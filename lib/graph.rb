@@ -247,9 +247,12 @@ class Graph
   # Shortcut method to create a new font Attribute instance. You can
   # pass in both the name and an optional font size.
 
-  def font name, size=nil
-    Attribute.new "fontname = #{name.inspect}" +
-      (size ? ", fontsize = #{size}" : "")
+  def font name
+    Attribute.new "fontname = #{name.inspect}"
+  end
+
+  def fontsize size
+    Attribute.new "fontsize = #{size}"
   end
 
   ##
@@ -398,7 +401,31 @@ class Graph
     #   bad_nodes = red + filled + diamond
 
     def + style
-      Attribute.new "#{self}, #{style}"
+      c = CompoundAttribute.new
+      c.push self
+      c.push style
+      c
+    end
+  end
+
+  class CompoundAttribute < Attribute
+    def initialize attr = []
+      super
+    end
+
+    def push attrib
+      attr.push attrib
+    end
+
+    def << thing
+      attr.each do |subattr|
+        subattr << thing # allows for recursive compound attributes
+      end
+      self
+    end
+
+    def to_s
+      attr.join ", "
     end
   end
 

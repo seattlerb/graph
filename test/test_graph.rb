@@ -62,7 +62,8 @@ class TestGraph < MiniTest::Unit::TestCase
 
   def test_font_size
     # cheating... but I didn't want to write a more complex assertion
-    assert_attribute "fontname", '"blah", fontsize = 12', graph.font("blah", 12)
+    assert_attribute "fontname", '"blah"', graph.font("blah")
+    assert_attribute "fontsize", '12',     graph.fontsize(12)
   end
 
   def test_digraph
@@ -277,11 +278,25 @@ class TestAttribute < MiniTest::Unit::TestCase
 
     c = a + b
 
-    assert_equal "blah, halb", c.attr
+    assert_equal [a, b], c.attr
+    assert_equal "blah, halb", c.to_s
   end
 
   def test_to_s
     assert_equal "blah", a.to_s
+  end
+end
+
+class TestCompoundAttribute < TestAttribute
+  def test_lshift
+    b = Graph::Attribute.new "halb"
+    n = Graph::Node.new nil, nil
+
+    c = a + b
+
+    c << n # paint the node with a + b
+
+    assert_equal [a, b], n.attributes
   end
 end
 
