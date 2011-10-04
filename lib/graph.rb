@@ -7,7 +7,7 @@ require "enumerator"
 # dot format.
 
 class Graph
-  VERSION = "2.2.0" # :nodoc:
+  VERSION = "2.3.0" # :nodoc:
 
   LIGHT_COLORS = %w(gray lightblue lightcyan lightgray lightpink
                     lightslategray lightsteelblue white)

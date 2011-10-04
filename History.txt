@@ -1,3 +1,15 @@
+=== 2.3.0 / 2011-10-04
+
+* 7 minor enhancements:
+
+  * Added CompoundAttribute
+  * Added arrowhead, arrowtail, and arrowsize attribute methods.
+  * Added default arrowhead attribute helpers (vee, box, dot, etc)..
+  * Added fontsize
+  * Attribute#+ now returns a CompoundAttribute
+  * Colorscheme is now passed down to subgraphs.
+  * font shortcut no longer takes optional fontsize.
+
 === 2.2.0 / 2011-08-12
 
 * 3 minor enhancements:
