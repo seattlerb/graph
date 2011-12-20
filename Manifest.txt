@@ -4,6 +4,7 @@ Manifest.txt
 README.txt
 Rakefile
 bin/graph
+easy_visualization.pdf
 gallery/cluster.rb
 gallery/fsm.rb
 gallery/ruby_exceptions.rb
