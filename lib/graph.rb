@@ -70,7 +70,12 @@ class Graph
   end
 
   ARROWS.each do |name|
-    method_name = name.sub(/none/, 'arrow_none')
+    method_name = {
+      "none"    => "none_arrow",
+      "box"     => "box_arrow",
+      "diamond" => "diamond_arrow",
+    }[name] || name
+
     define_method(method_name) { arrowhead name }
   end
 
@@ -493,7 +498,6 @@ class Graph
     attr_accessor :name
 
     def connected?
-      node = self.name
       edges = graph.edges
 
       edges.include?(name) or edges.any? { |from, deps| deps.include? name }
