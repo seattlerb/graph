@@ -11,7 +11,14 @@ class RakeAnalyzer < DepAnalyzer
       rake = Gem.bin_path('rake', 'rake') rescue 'rake'
       path = $:.join File::PATH_SEPARATOR
 
-      `#{Gem.ruby} -I#{path} -S #{rake} -P -s`.each_line do |line|
+      content =
+        if $stdin.tty? then
+          `#{Gem.ruby} -I#{path} -S #{rake} -P -s`
+        else
+          $stdin.read
+        end
+
+      content.each_line do |line|
         case line
         when /^rake (.+)/
           name = $1
