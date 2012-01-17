@@ -1,3 +1,16 @@
+=== 2.4.0 / 2012-01-16
+
+* 4 minor enhancements:
+
+  * Renamed arrow_none to none_arrow.
+  * Renamed box to box_arrow (because the box shape was already defined).
+  * Renamed diamond to diamond_arrow (because the diamond shape was already defined).
+  * Allow rake analyzer to read from stdin, making it more usable for isolated systems.
+
+* 1 bug fix:
+
+  * Fixed 1.9.3 warnings.
+
 === 2.3.1 / 2011-12-19
 
 * 1 minor enhancement:
