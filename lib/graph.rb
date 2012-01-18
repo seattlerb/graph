@@ -339,8 +339,9 @@ class Graph
   def to_s
     result = []
 
-    type = graph ? "subgraph" : "digraph"
-    result << "#{type} #{name}"
+    type = graph ? "subgraph " : "digraph "
+    type << "\"#{name}\"" if name and !name.empty?
+    result << type
     result << "  {"
 
     graph_attribs.each do |line|
