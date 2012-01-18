@@ -227,7 +227,7 @@ class TestGraph < MiniTest::Unit::TestCase
 
     graph << g
 
-g_s = "subgraph subgraph
+g_s = "subgraph \"subgraph\"
   {
     \"a\";
     \"c\";
