@@ -21,6 +21,9 @@ klass    = Object.const_get name
 analyzer = klass.new
 graph    = analyzer.run
 
-graph.save name, $d ? nil : "png"
+huge = graph.nodes.size + graph.edges.size > 500
+ext  = $d ? nil : huge ? "pdf" : "png"
 
-system "open #{name}.#{$d ? "dot" : "png"}" if $o
+graph.save name, ext
+
+system "open #{name}.#{ext || "dot"}" if $o
