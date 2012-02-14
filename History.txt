@@ -1,3 +1,9 @@
+=== 2.5.0 / 2012-02-13
+
+* 1 minor enhancement:
+
+  * Graph should render a pdf if rendering a png will be prohibitive (node+edge > 500)
+
 === 2.4.1 / 2012-01-30
 
 * 1 minor enhancement:
