@@ -189,7 +189,12 @@ class TestGraph < MiniTest::Unit::TestCase
     assert_equal "cluster_blah", s.name
     assert_equal 42, n
   end
-
+  
+  def test_same_rank
+    graph.same_rank 'a', 'b'
+    assert_graph graph, '"a" -> "b"', '{ rank = same; "a"; "b" }'
+  end
+  
   def test_to_s
     assert_graph graph, '"a" -> "b"'
 

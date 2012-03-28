@@ -185,7 +185,15 @@ class Graph
   def color color
     Attribute.new "color = #{color}"
   end
+  
+  ##
+  # Provide some nodes which have to be on the same line
 
+  def same_rank *node_names
+    nodes = node_names.map{|n| %{"#{n}"} }.join('; ')
+    @same_rank = "{ rank = same; #{nodes} }"  
+  end
+  
   ##
   # Shortcut method to create a new colorscheme Attribute instance. If
   # passed +n+, +name+ must match one of the brewer color scheme names
@@ -369,6 +377,8 @@ class Graph
         result << "    #{edge};"
       end
     end
+    
+    result << "    #{@same_rank};" if @same_rank
 
     result << "  }"
     result.join "\n"
