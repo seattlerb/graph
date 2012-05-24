@@ -120,6 +120,10 @@ class Graph
 
   attr_reader :subgraphs
 
+  # TODO: remove if/when I drop 1.8 support.
+  attr_reader :nodes_order # :nodoc:
+  attr_reader :edges_order # :nodoc:
+
   ##
   # Creates a new graph object. Optional name and parent graph are
   # available. Also takes an optional block for DSL-like use.
@@ -128,9 +132,14 @@ class Graph
     @name = name
     @graph = graph
     graph << self if graph
-    @nodes  = Hash.new { |h,k| h[k] = Node.new self, k }
+    @nodes_order = []
+    @nodes  = Hash.new { |h,k| @nodes_order << k; h[k] = Node.new self, k }
+    @edges_order = []
     @edges  = Hash.new { |h,k|
-      h[k] = Hash.new { |h2, k2| h2[k2] = Edge.new self, self[k], self[k2] }
+      h[k] = Hash.new { |h2, k2|
+        @edges_order << [k, k2]
+        h2[k2] = Edge.new self, self[k], self[k2]
+      }
     }
     @graph_attribs = []
     @node_attribs  = []
@@ -360,14 +369,14 @@ class Graph
       result << "    #{line};"
     end
 
-    nodes.each do |name, node|
+    nodes_order.each do |name|
+      node = nodes[name]
       result << "    #{node};" if graph or node.attributes? or node.orphan?
     end
 
-    edges.each do |from, deps|
-      deps.each do |to, edge|
-        result << "    #{edge};"
-      end
+    edges_order.uniq.each do |(from, to)|
+      edge = edges[from][to]
+      result << "    #{edge};"
     end
 
     result << "  }"
