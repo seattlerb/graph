@@ -1,15 +1,14 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "graph/version"
 
 Gem::Specification.new do |s|
   s.name        = "graph"
-  s.version     = Graph::VERSION
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["iansteel@harrisonmurray.co.uk"]
+  s.version     = '0.0.1'
+  s.authors     = ["Ian Steel"]
+  s.email       = ["houdi84@gmail.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Updated version of Graph to support reverse direction edges}
+  s.description = %q{Updated version of Graph to support reverse direction edges}
 
   s.rubyforge_project = "graph"
 
