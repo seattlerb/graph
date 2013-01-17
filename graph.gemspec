@@ -1,9 +1,11 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
 
+require 'graph'
+
 Gem::Specification.new do |s|
   s.name        = "graph"
-  s.version     = '0.0.1'
+  s.version     = Graph::VERSION
   s.authors     = ["Ian Steel"]
   s.email       = ["houdi84@gmail.com"]
   s.homepage    = ""
