@@ -276,6 +276,11 @@ class Graph
     graph_attribs << "label = \"#{name.gsub(/\n/, '\n')}\""
   end
 
+  # Pass 'back' to reverse the edge arrow heads
+  def dir name
+    graph_attribs << "dir = \"#{name.gsub(/\n/, '\n')}\""
+  end
+
   ##
   # Access a node by name, supplying an optional label
 
