@@ -1,7 +1,9 @@
 require 'rubygems/command'
 require 'rubygems_analyzer'
 
-class Gem::Commands::GraphCommand < Gem::Command
+# :stopdoc:
+
+class Gem::Commands::GraphCommand < Gem::Command # :nodoc: all
 
   def initialize
     super 'graph', 'Graph dependency relationships of installed gems'
@@ -13,6 +15,4 @@ class Gem::Commands::GraphCommand < Gem::Command
 
     say "Graph saved to:\n\tRubygemsAnalyzer.png"
   end
-
 end
-

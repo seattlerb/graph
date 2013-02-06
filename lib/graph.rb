@@ -9,6 +9,8 @@ require "enumerator"
 class Graph
   VERSION = "2.5.1" # :nodoc:
 
+  # :stopdoc:
+
   LIGHT_COLORS = %w(gray lightblue lightcyan lightgray lightpink
                     lightslategray lightsteelblue white)
 
@@ -78,6 +80,8 @@ class Graph
 
     define_method(method_name) { arrowhead name }
   end
+
+  # :startdoc:
 
   ##
   # A parent graph, if any. Only used for subgraphs.
@@ -167,22 +171,31 @@ class Graph
     nodes[name]
   end
 
+  ##
+  # Shortcut method for creating an arrowhead attribute.
+
   def arrowhead shape
     raise ArgumentError, "Bad arrow shape: #{shape}" unless shape =~ ARROW_RE
     Attribute.new "arrowhead = #{shape}"
   end
+
+  ##
+  # Shortcut method for creating an arrowtail attribute.
 
   def arrowtail shape
     raise ArgumentError, "Bad arrow shape: #{shape}" unless shape =~ ARROW_RE
     Attribute.new "arrowtail = #{shape}"
   end
 
+  ##
+  # Shortcut method for creating an arrowsize attribute.
+
   def arrowsize size
     Attribute.new "arrowsize = #{size}"
   end
 
   ##
-  # A convenience method to set the global node attributes to use boxes.
+  # Shortcut method to set the global node attributes to use boxes.
 
   def boxes
     node_attribs << shape("box")
@@ -202,6 +215,9 @@ class Graph
   # the colorscheme onto the node_attribs.
 
   attr_accessor :scheme
+
+  ##
+  # Shortcut method to create and set the graph to use a colorscheme.
 
   def colorscheme name, n = nil
     self.scheme = Attribute.new "colorscheme = #{name}#{n}"
@@ -264,6 +280,9 @@ class Graph
   def font name
     Attribute.new "fontname = #{name.inspect}"
   end
+
+  ##
+  # Shortcut method to create a new fontsize Attribute instance.
 
   def fontsize size
     Attribute.new "fontsize = #{size}"
@@ -423,14 +442,24 @@ class Graph
     end
   end
 
+  ##
+  # An attribute... that's compound. So much for self-documenting code. :(
+
   class CompoundAttribute < Attribute
-    def initialize attr = []
+    def initialize attr = [] # :nodoc:
       super
     end
+
+    ##
+    # Push an attribute into the list o' attributes.
 
     def push attrib
       attr.push attrib
     end
+
+    ##
+    # "Paint" a thingy with an attribute. Applies the attribute to the
+    # thingy. In this case, does it recursively.
 
     def << thing
       attr.each do |subattr|
@@ -439,13 +468,18 @@ class Graph
       self
     end
 
-    def to_s
+    def to_s # :nodoc:
       attr.join ", "
     end
   end
 
+  ##
+  # You know... THINGY!
+  #
+  # Has a pointer back to its graph parent and attributes.
+
   class Thingy < Struct.new :graph, :attributes
-    def initialize graph
+    def initialize graph # :nodoc:
       super graph, []
     end
 
@@ -476,7 +510,7 @@ class Graph
 
   class Edge < Thingy
 
-    attr_accessor :from, :to
+    attr_accessor :from, :to # :nodoc:
 
     ##
     # Create a new edge in +graph+ from +from+ to +to+.
@@ -505,13 +539,19 @@ class Graph
 
   class Node < Thingy
 
-    attr_accessor :name
+    attr_accessor :name # :nodoc:
+
+    ##
+    # Is this node connected to the graph?
 
     def connected?
       edges = graph.edges
 
       edges.include?(name) or edges.any? { |from, deps| deps.include? name }
     end
+
+    ##
+    # Is this node an orphan? (ie, not connected?)
 
     def orphan?
       not connected?
@@ -556,6 +596,7 @@ class Graph
   end
 end
 
+class Object # :nodoc:
 ##
 # Convenience method to create a new graph. Used for DSL-style:
 #
@@ -565,4 +606,5 @@ end
 
 def digraph name = nil, &block
   Graph.new name, &block
+end
 end

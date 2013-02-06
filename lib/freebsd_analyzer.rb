@@ -1,5 +1,7 @@
 require 'dep_analyzer'
 
+# :stopdoc:
+
 class FreebsdAnalyzer < DepAnalyzer
   def installed
     # don't cache so it updates every delete

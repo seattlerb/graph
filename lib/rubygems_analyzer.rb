@@ -1,5 +1,7 @@
 require 'dep_analyzer'
 
+# :stopdoc:
+
 $a ||= false
 
 class RubygemsAnalyzer < DepAnalyzer

@@ -2,11 +2,22 @@ require 'graph'
 require 'set'
 require 'tsort'
 
+##
+# A simple file caching mechanism with automatic timeout.
+
 class Cache
+
+  ##
+  # Create a cache at +cache+ path for a given +timeout+ (in hours).
+
   def initialize(cache, timeout=24)
     @cache = cache
     @timeout = timeout
   end
+
+  ##
+  # Add a cached item to +id+. Value is returned either from the cache
+  # if it is new enough or by yielding.
 
   def cache(id, timeout=@timeout)
     Dir.mkdir @cache unless test ?d, @cache
@@ -28,7 +39,11 @@ class Cache
   end
 end
 
-class Set
+class Set # :nodoc:
+
+  ##
+  # A simple batch-add to Set. Bad API is bad. Thank god for open classes.
+
   def push *v
     v.each do |o|
       add(o)
@@ -36,7 +51,7 @@ class Set
   end
 end
 
-class Hash
+class Hash # :nodoc:
   include TSort
 
   alias tsort_each_node each_key
@@ -44,6 +59,10 @@ class Hash
   def tsort_each_child(node, &block)
     fetch(node).each(&block)
   end
+
+  ##
+  # Return the #inverse of a hash, allowing for multiple keys having
+  # the same values.
 
   def minvert
     r = Hash.new { |h,k| h[k] = [] }
@@ -58,6 +77,9 @@ class Hash
     r
   end
 
+  ##
+  # Calculate the transitive closure of the hash.
+
   def transitive
     r = Hash.new { |h,k| h[k] = [] }
     each do |k,v|
@@ -65,6 +87,9 @@ class Hash
     end
     r
   end
+
+  ##
+  # Calculates the (transitive) set of dependencies for a given key.
 
   def t(k)
     r = Set.new
@@ -75,29 +100,50 @@ class Hash
   end
 end
 
-class DepAnalyzer < Cache
-  attr_accessor :g
+##
+# Abstract class to analyze dependencies. Intended to be subclassed
+# for a given dependency system (eg rubygems). Subclasses must
+# implement #deps, #installed, and #outdated at the very least.
 
-  def initialize
+class DepAnalyzer < Cache
+  attr_accessor :g # :nodoc:
+
+  def initialize # :nodoc:
     super ".#{self.class}.cache"
     @g = Graph.new
   end
+
+  ##
+  # Allows your subclass to add extra fancy stuff to the graph when
+  # analysis is finished.
 
   def decorate
     # nothing to do by default
   end
 
+  ##
+  # Return the dependencies for a given port.
+
   def deps port
     raise NotImplementedError, "subclass responsibility"
   end
+
+  ##
+  # Return all installed items on the system.
 
   def installed
     raise NotImplementedError, "subclass responsibility"
   end
 
+  ##
+  # Return all outdated items currently installed.
+
   def outdated
     raise NotImplementedError, "subclass responsibility"
   end
+
+  ##
+  # Do the actual work.
 
   def run(argv = ARGV)
     setup
@@ -163,8 +209,10 @@ class DepAnalyzer < Cache
     g
   end
 
+  ##
+  # Allows subclasses to do any preparation before the run.
+
   def setup
     # nothing to do by default
   end
 end
-

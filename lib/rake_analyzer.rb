@@ -1,6 +1,8 @@
 require "rubygems"
 require 'dep_analyzer'
 
+# :stopdoc:
+
 class RakeAnalyzer < DepAnalyzer
   def run
     digraph do
