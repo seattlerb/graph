@@ -1,3 +1,9 @@
+=== 2.5.2 / 2013-02-07
+
+* 1 minor enhancement:
+
+  * Improved doco. I'd be at 100% if rdoc wasn't so borked. :(
+
 === 2.5.1 / 2012-06-27
 
 * 1 bug fix:
