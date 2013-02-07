@@ -7,7 +7,7 @@ require "enumerator"
 # dot format.
 
 class Graph
-  VERSION = "2.5.1" # :nodoc:
+  VERSION = "0.0.2" # :nodoc:
 
   # :stopdoc:
 
@@ -293,6 +293,11 @@ class Graph
 
   def label name
     graph_attribs << "label = \"#{name.gsub(/\n/, '\n')}\""
+  end
+
+  # Pass 'back' to reverse the edge arrow heads
+  def dir name
+    graph_attribs << "dir = \"#{name.gsub(/\n/, '\n')}\""
   end
 
   ##
