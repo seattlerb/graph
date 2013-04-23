@@ -109,6 +109,12 @@ class TestGraph < MiniTest::Unit::TestCase
     assert_graph graph, 'label = "blah"', '"a" -> "b"'
   end
 
+  def test_label_quote
+    graph.label 'blah"blah'
+
+    assert_graph graph, 'label = "blah\\"blah"', '"a" -> "b"'
+  end
+
   def test_label_newline
     graph.label "blah\nblah"
 

@@ -292,7 +292,7 @@ class Graph
   # Shortcut method to set the graph's label. Usually used with subgraphs.
 
   def label name
-    graph_attribs << "label = \"#{name.gsub(/\n/, '\n')}\""
+    graph_attribs << "label = \"#{name.gsub(/\n/, '\n').gsub(/\"/, '\\"')}\""
   end
 
   ##
