@@ -109,6 +109,12 @@ class TestGraph < MiniTest::Unit::TestCase
     assert_graph graph, 'label = "blah"', '"a" -> "b"'
   end
 
+  def test_label_html
+    graph.label "<<B>blah</B>>"
+
+    assert_graph graph, 'label = <<B>blah</B>>', '"a" -> "b"'
+  end
+
   def test_label_quote
     graph.label 'blah"blah'
 
@@ -373,6 +379,12 @@ class TestNode < MiniTest::Unit::TestCase
     n.label "blah"
 
     assert_equal ["label = \"blah\""], n.attributes
+  end
+
+  def test_label_html
+    n.label "<<B>Foo</B>>"
+
+    assert_equal ["label = <<B>Foo</B>>"], n.attributes
   end
 
   def test_label_newline

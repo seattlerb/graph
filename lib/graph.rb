@@ -288,11 +288,20 @@ class Graph
     Attribute.new "fontsize = #{size}"
   end
 
+  def self.escape_label s
+    s = s.gsub(/\n/, '\n').gsub(/\"/, '\\\"')
+    if s[0] == ?< and s[-1] == ?> then
+      s
+    else
+      "\"#{s}\""
+    end
+  end
+
   ##
   # Shortcut method to set the graph's label. Usually used with subgraphs.
 
   def label name
-    graph_attribs << "label = \"#{name.gsub(/\n/, '\n').gsub(/\"/, '\\"')}\""
+    graph_attribs << "label = #{Graph.escape_label name}"
   end
 
   ##
@@ -493,7 +502,7 @@ class Graph
 
     def label name
       attributes.reject! { |s| s =~ /^label =/ }
-      attributes << "label = \"#{name.gsub(/\n/, '\n')}\""
+      attributes << "label = #{Graph.escape_label name}"
       self
     end
 
