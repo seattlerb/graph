@@ -1,3 +1,14 @@
+=== 2.5.3 / 2013-05-10
+
+* 2 minor enhancements:
+
+  * Added <> quoted labels.
+  * Added Graph.escape_label.
+
+* 1 bug fix:
+
+  * Fixed issue with labels not escaping double quotes. (tenderlove)
+
 === 2.5.2 / 2013-02-07
 
 * 1 minor enhancement:
