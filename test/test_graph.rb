@@ -9,7 +9,7 @@ class String
   end
 end
 
-class TestGraph < MiniTest::Unit::TestCase
+class TestGraph < Minitest::Test
   attr_accessor :graph
 
   def assert_attribute k, v, a
@@ -270,7 +270,7 @@ g_s = "subgraph \"subgraph\"
   end
 end
 
-class TestAttribute < MiniTest::Unit::TestCase
+class TestAttribute < Minitest::Test
   attr_accessor :a
 
   def setup
@@ -312,7 +312,7 @@ class TestCompoundAttribute < TestAttribute
   end
 end
 
-class TestNode < MiniTest::Unit::TestCase
+class TestNode < Minitest::Test
   attr_accessor :n
 
   def setup
@@ -404,7 +404,7 @@ class TestNode < MiniTest::Unit::TestCase
   end
 end
 
-class TestEdge < MiniTest::Unit::TestCase
+class TestEdge < Minitest::Test
   attr_accessor :e
 
   def setup
