@@ -1,3 +1,9 @@
+=== 2.6.0 / 2013-09-18
+
+* 1 minor enhancement:
+
+  * Added deletion of nodes. (thagomizer)
+
 === 2.5.3 / 2013-05-10
 
 * 2 minor enhancements:
