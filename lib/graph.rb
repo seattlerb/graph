@@ -371,6 +371,13 @@ class Graph
   end
 
   ##
+  # Deletes a node from the graph
+  def delete_node node_name
+    nodes.delete node_name
+    nodes_order.delete node_name
+  end
+
+  ##
   # Outputs a graphviz graph.
 
   def to_s
