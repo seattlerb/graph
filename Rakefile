@@ -30,4 +30,4 @@ task :clean do
   rm_f Dir[*pngs] + Dir[*dots]
 end
 
-# vim: syntax=Ruby
+# vim: syntax=ruby
