@@ -62,6 +62,8 @@ class Graph
     define_method(name) { style name }
   end
 
+  alias :invisible :invis
+
   (BOLD_COLORS + LIGHT_COLORS).each do |name|
     define_method(name) { color name }
   end
