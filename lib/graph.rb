@@ -303,7 +303,11 @@ class Graph
   # Shortcut method to set the graph to use decorate (edge attribute)
 
   def decorate decorate
-    graph_attribs << "decorate = #{decorate}"
+    self.scheme = Attribute.new "decorate = #{decorate}"
+
+    graph_attribs << scheme
+
+    scheme
   end
 
   ##
