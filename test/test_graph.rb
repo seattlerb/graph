@@ -75,6 +75,11 @@ class TestGraph < Minitest::Test
     assert_equal %w(a b c), g.nodes.keys.sort
   end
 
+  def test_decorate
+    assert_attribute 'decorate', 'true', graph.decorate('true')
+    assert_attribute 'decorate', 'false', graph.decorate('false')
+  end
+
   def test_edge
     @graph = Graph.new
 
