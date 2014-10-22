@@ -18,6 +18,7 @@ OSX quick tip:
     % sudo brew install graphviz
     % gem unpack graph
     % cd graph*
+    % sudo gem install hoe
     % rake gallery
     % open gallery/*.png
 
