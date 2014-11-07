@@ -14,7 +14,7 @@ purple (red+blue).
 
 OSX quick tip: 
 
-    % sudo gem install graph
+    % sudo gem install graph --development
     % sudo brew install graphviz
     % gem unpack graph
     % cd graph*
