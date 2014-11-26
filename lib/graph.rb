@@ -540,6 +540,15 @@ class Graph
     end
 
     ##
+    # Sets the decorate attribute.
+    # Decorate connects the label to the deg with a line
+
+    def decorate decorate
+      self.attributes << "decorate = #{decorate}"
+    end
+
+
+    ##
     # Returns the edge in dot syntax.
 
     def to_s
