@@ -443,6 +443,12 @@ class TestEdge < Minitest::Test
     assert_equal ["label = \"blah\\nblah\""], e.attributes
   end
 
+  def test_decorate
+    e.decorate "true"
+
+    assert_equal ["decorate = true"], e.attributes
+  end
+
   def test_to_s
     assert_equal '"a" -> "b"', e.to_s
   end
