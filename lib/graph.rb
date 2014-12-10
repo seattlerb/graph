@@ -7,7 +7,7 @@ require "enumerator"
 # dot format.
 
 class Graph
-  VERSION = "2.7.1" # :nodoc:
+  VERSION = "2.8.0" # :nodoc:
 
   # :stopdoc:
 

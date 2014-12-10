@@ -1,3 +1,13 @@
+=== 2.8.0 / 2014-12-09
+
+* 1 minor enhancement:
+
+  * Added Edge#decorate. (thagomizer)
+
+* 1 bug fix:
+
+  * Fixed readme quick tip by including dev deps when installing graph. (amejiarosario)
+
 === 2.7.1 / 2014-09-26
 
 * 1 bug fix:
