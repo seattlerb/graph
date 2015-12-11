@@ -1,16 +1,16 @@
 require 'dep_analyzer'
 
+begin
+  require "rubygems/cleanroom"
+rescue LoadError
+  warn "NOTE: Not using rubygems-cleanroom. Try it! You might like it."
+end
+
 # :stopdoc:
 
 $a ||= false
 
 class RubygemsAnalyzer < DepAnalyzer
-  def setup
-    require "rubygems"
-    ENV['GEM_PATH'] = `gem env home`
-    Gem.clear_paths
-  end
-
   def installed
     # don't cache so it updates every delete
     puts "scanning installed rubygems"
