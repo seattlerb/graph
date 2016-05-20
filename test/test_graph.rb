@@ -183,11 +183,11 @@ class TestGraph < Minitest::Test
   end
 
   def test_save
-    util_save "png"
+    assert_save "png"
   end
 
   def test_save_nil
-    util_save nil
+    assert_save nil
   end
 
   def test_shape
@@ -269,20 +269,21 @@ g_s = "subgraph \"subgraph\"
                  '"a" -> "b"')
   end
 
-  def util_save type
+  def assert_save type
     path = File.join(Dir.tmpdir, "blah.#{$$}")
 
-    $x = nil
+    actual = expected = false
 
-    def graph.system(*args)
-      $x = args
+    mc = (class << graph; self; end)
+    mc.send :define_method, :system do |*args|
+      actual = args
     end
 
     graph.save(path, type)
 
     assert_equal graph.to_s + "\n", File.read("#{path}.dot")
     expected = ["dot -T#{type} #{path}.dot > #{path}.png"] if type
-    assert_equal expected, $x
+    assert_equal expected, actual
   ensure
     File.unlink path rescue nil
   end
