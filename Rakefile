@@ -8,6 +8,7 @@ Hoe.plugin :seattlerb
 
 Hoe.spec 'graph' do
   developer 'Ryan Davis', 'ryand-ruby@zenspider.com'
+  license "MIT"
 end
 
 gallery = Dir["gallery/*.rb"]

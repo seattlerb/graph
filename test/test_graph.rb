@@ -109,23 +109,41 @@ class TestGraph < Minitest::Test
     assert_graph graph, 'label = "blah"', '"a" -> "b"'
   end
 
+  def assert_delete_node name, exp, edges=true
+    assert_equal 2,       graph.nodes.length
+    assert_equal 2,       graph.nodes_order.length
+    assert_equal %w[a b], graph.nodes.keys.sort
+
+    if edges then
+      assert_equal 1, graph.edges.length
+      assert_equal 1, graph.edges_order.length
+    end
+
+    graph.delete_node name
+
+    assert_equal 1,   graph.nodes.length
+    assert_equal 1,   graph.nodes_order.length
+    assert_equal exp, graph.nodes.keys.sort
+    assert_equal 0,   graph.edges.length
+    assert_equal 0,   graph.edges_order.length
+  end
+
   def test_delete_node
-    g = digraph do
+    @graph = digraph do
       node "a"
       node "b"
     end
 
-    assert_equal 2, g.nodes.length
-    assert_equal 2, g.nodes_order.length
-    assert_equal %w[a b], g.nodes.keys.sort
-
-    g.delete_node "a"
-
-    assert_equal 1, g.nodes.length
-    assert_equal 1, g.nodes_order.length
-    assert_equal %w[b], g.nodes.keys.sort
+    assert_delete_node "a", %w[b], false
   end
 
+  def test_delete_node_edges_front
+    assert_delete_node "a", %w[b]
+  end
+
+  def test_delete_node_edges_back
+    assert_delete_node "b", %w[a]
+  end
 
   def test_label_html
     graph.label "<<B>blah</B>>"

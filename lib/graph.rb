@@ -291,7 +291,7 @@ class Graph
   end
 
   def self.escape_label s
-    s = s.gsub(/\n/, '\n').gsub(/\"/, '\\\"')
+    s = s.to_s.gsub(/\n/, '\n').gsub(/\"/, '\\\"')
     if s[0] == ?< and s[-1] == ?> then
       s
     else
@@ -377,6 +377,14 @@ class Graph
   def delete_node node_name
     nodes.delete node_name
     nodes_order.delete node_name
+
+    edges_order.each do |(a, b)|
+      edges[a].delete b if b == node_name
+      edges.delete a if a == node_name
+      edges.delete a if edges[a].empty?
+    end
+
+    edges_order.delete_if { |ary| ary.include? node_name }
   end
 
   ##
