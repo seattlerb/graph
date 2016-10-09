@@ -1,3 +1,10 @@
+=== 2.8.2 / 2016-10-09
+
+* 2 bug fixes:
+
+  * delete_node cleans up edges and edges_order.
+  * escape_label better deals with symbols.
+
 === 2.8.1 / 2016-01-21
 
 * 1 bug fix:
