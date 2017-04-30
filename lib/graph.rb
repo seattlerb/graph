@@ -300,6 +300,17 @@ class Graph
   end
 
   ##
+  # Shortcut method to set the graph to use decorate (edge attribute)
+
+  def decorate decorate
+    self.scheme = Attribute.new "decorate = #{decorate}"
+
+    graph_attribs << scheme
+
+    scheme
+  end
+
+  ##
   # Shortcut method to set the graph's label. Usually used with subgraphs.
 
   def label name
