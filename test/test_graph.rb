@@ -14,6 +14,9 @@ class TestGraph < Minitest::Test
 
   def assert_attribute k, v, a
     assert_kind_of Graph::Attribute, a
+
+    v = v.dump if String === v
+
     assert_equal "#{k} = #{v}", a.attr
   end
 
@@ -33,7 +36,7 @@ class TestGraph < Minitest::Test
 
     graph.boxes
 
-    assert_graph graph, 'node [ shape = box ]', '"a" -> "b"'
+    assert_graph graph, 'node [ shape = "box" ]', '"a" -> "b"'
   end
 
   def test_colorscheme
@@ -57,13 +60,13 @@ class TestGraph < Minitest::Test
   end
 
   def test_font
-    assert_attribute "fontname", '"blah"', graph.font("blah")
+    assert_attribute "fontname", "blah", graph.font("blah")
   end
 
   def test_font_size
     # cheating... but I didn't want to write a more complex assertion
-    assert_attribute "fontname", '"blah"', graph.font("blah")
-    assert_attribute "fontsize", '12',     graph.fontsize(12)
+    assert_attribute "fontname", "blah", graph.font("blah")
+    assert_attribute "fontsize", 12,     graph.fontsize(12)
   end
 
   def test_digraph

@@ -66,6 +66,8 @@ class Graph
 
   (BOLD_COLORS + LIGHT_COLORS).each do |name|
     define_method(name) { color name }
+    define_method("bg_#{name}") { bgcolor name }
+    define_method("fill_#{name}") { fillcolor name }
   end
 
   SHAPES.each do |name|
@@ -222,7 +224,7 @@ class Graph
   # Shortcut method to create and set the graph to use a colorscheme.
 
   def colorscheme name, n = nil
-    self.scheme = Attribute.new "colorscheme = #{name}#{n}"
+    self.scheme = Attribute.new "colorscheme = %p" % ["#{name}#{n}"]
     max = COLOR_SCHEME_MAX[name.to_sym]
 
     node_attribs << scheme if max
@@ -272,7 +274,14 @@ class Graph
   # Shortcut method to create a new fillcolor Attribute instance.
 
   def fillcolor n
-    Attribute.new "fillcolor = #{n}"
+    Attribute.new "fillcolor = %p" % [n]
+  end
+
+  ##
+  # Shortcut method to create a new fillcolor Attribute instance.
+
+  def bgcolor n
+    Attribute.new "bgcolor = %p" % [n]
   end
 
   ##
@@ -280,7 +289,7 @@ class Graph
   # pass in both the name and an optional font size.
 
   def font name
-    Attribute.new "fontname = #{name.inspect}"
+    Attribute.new "fontname = %p" % [name]
   end
 
   ##
@@ -345,14 +354,14 @@ class Graph
   # Shortcut method to create a new shape Attribute instance.
 
   def shape shape
-    Attribute.new "shape = #{shape}"
+    Attribute.new "shape = %p" % [shape]
   end
 
   ##
   # Shortcut method to create a new style Attribute instance.
 
   def style name
-    Attribute.new "style = #{name}"
+    Attribute.new "style = %p" % [name]
   end
 
   ##
