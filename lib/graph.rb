@@ -7,7 +7,7 @@ require "enumerator"
 # dot format.
 
 class Graph
-  VERSION = "2.8.2" # :nodoc:
+  VERSION = "2.8.3" # :nodoc:
 
   # :stopdoc:
 
@@ -342,12 +342,13 @@ class Graph
   ##
   # Saves out both a dot file to path and an image for the specified type.
   # Specify type as nil to skip exporting an image.
+  # Specify cmd as the command name like "neato" to use a command other than "dot".
 
-  def save path, type = nil
+  def save path, type = nil, cmd = "dot"
     File.open "#{path}.dot", "w" do |f|
       f.puts self.to_s
     end
-    system "dot -T#{type} #{path}.dot > #{path}.#{type}" if type
+    system "#{cmd} -T#{type} #{path}.dot > #{path}.#{type}" if type
   end
 
   ##

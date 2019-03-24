@@ -211,6 +211,10 @@ class TestGraph < Minitest::Test
     assert_save nil
   end
 
+  def test_save_cmd
+    assert_save "png", "neato"
+  end
+
   def test_shape
     assert_attribute "shape", "blah", graph.shape("blah")
   end
@@ -290,7 +294,7 @@ g_s = "subgraph \"subgraph\"
                  '"a" -> "b"')
   end
 
-  def assert_save type
+  def assert_save type, cmd = "dot"
     path = File.join(Dir.tmpdir, "blah.#{$$}")
 
     actual = expected = false
@@ -300,10 +304,10 @@ g_s = "subgraph \"subgraph\"
       actual = args
     end
 
-    graph.save(path, type)
+    graph.save(path, type, cmd)
 
     assert_equal graph.to_s + "\n", File.read("#{path}.dot")
-    expected = ["dot -T#{type} #{path}.dot > #{path}.png"] if type
+    expected = ["#{cmd} -T#{type} #{path}.dot > #{path}.png"] if type
     assert_equal expected, actual
   ensure
     File.unlink path rescue nil
