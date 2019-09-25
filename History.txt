@@ -1,3 +1,15 @@
+=== 2.9.0 / 2019-09-24
+
+* 3 minor enhancements:
+
+  * Added ability to specify command to run on save. (tanalab2)
+  * Added bg_<name> and fill_<name> methods for all colors.
+  * Added bgcolor shortcut method.
+
+* 1 bug fix:
+
+  * Normalized all attribute value quoting.
+
 === 2.8.2 / 2016-10-09
 
 * 2 bug fixes:
