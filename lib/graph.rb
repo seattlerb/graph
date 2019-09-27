@@ -67,7 +67,7 @@ class Graph
   (BOLD_COLORS + LIGHT_COLORS).each do |name|
     define_method(name) { color name }
     define_method("bg_#{name}") { bgcolor name }
-    define_method("fill_#{name}") { fillcolor name }
+    define_method("fill_#{name}") { filled + (fillcolor name) }
   end
 
   SHAPES.each do |name|
