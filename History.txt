@@ -1,3 +1,9 @@
+=== 2.9.1 / 2019-12-14
+
+* 1 bug fix:
+
+  * Add 'filled' to all 'fill_*' color definitions.
+
 === 2.9.0 / 2019-09-24
 
 * 3 minor enhancements:
