@@ -69,6 +69,10 @@ class TestGraph < Minitest::Test
     assert_attribute "fontsize", 12,     graph.fontsize(12)
   end
 
+  def test_font_color
+    assert_attribute "fontcolor", "white", graph.fontcolor("white")
+  end
+
   def test_digraph
     g = digraph do
       edge "a", "b", "c"

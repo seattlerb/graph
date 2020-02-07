@@ -293,6 +293,13 @@ class Graph
   end
 
   ##
+  # Shortcut method to create a new fontcolor Attribute instance.
+
+  def fontcolor name
+    Attribute.new "fontcolor = %p" % [name]
+  end
+
+  ##
   # Shortcut method to create a new fontsize Attribute instance.
 
   def fontsize size
@@ -337,6 +344,15 @@ class Graph
 
   def rotate dir = "LR"
     orient dir
+  end
+
+  ##
+  # Shortcut method to rotate and use boxes. Helps compact when there
+  # is lots of long text nodes.
+
+  def compact!
+    rotate
+    boxes
   end
 
   ##

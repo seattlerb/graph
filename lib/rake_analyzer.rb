@@ -6,8 +6,7 @@ require 'dep_analyzer'
 class RakeAnalyzer < DepAnalyzer
   def run
     digraph do
-      rotate
-      boxes
+      compact!
 
       current = nil
       rake = Gem.bin_path('rake', 'rake') rescue 'rake'

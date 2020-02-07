@@ -3,8 +3,7 @@
 require "graph"
 
 digraph do
-  rotate
-  boxes
+  compact!
 
   ObjectSpace.each_object Class do |mod|
     next if mod.name =~ /Errno/
