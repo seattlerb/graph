@@ -1,3 +1,11 @@
+=== 2.10.0 / 2020-02-09
+
+* 3 minor enhancements:
+
+  * Added compact! shortcut (rotate + boxes--good for code/text graphs).
+  * Added fontcolor shortcut.
+  * Improved homebrew analyzer to include outdated casks & added caching.
+
 === 2.9.1 / 2019-12-14
 
 * 1 bug fix:
