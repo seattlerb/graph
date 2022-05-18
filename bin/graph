@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby -ws
 
-$o ||= false
-$d ||= false
+$o ||= false # open after creating
+$d ||= false # dot file only
+$r ||= false # rotate 90°
 
 type = ARGV.shift
 unless type then
@@ -20,6 +21,8 @@ name     = "#{type.capitalize}Analyzer"
 klass    = Object.const_get name
 analyzer = klass.new
 graph    = analyzer.run
+
+graph.rotate if $r
 
 huge = graph.nodes.size + graph.edges.size > 500
 ext  = $d ? nil : huge ? "pdf" : "png"
