@@ -170,16 +170,20 @@ class DepAnalyzer < Cache
       ports[port] = deps
     end
 
+    rect   = g.rect
     blue   = g.color "blue"
     purple = g.color "purple4"
     red    = g.color "red"
+    pink   = g.fill_lightpink
 
     indies = ports.keys - ports.minvert.keys
     indies.each do |k|
+      rect << g[k]
       blue << g[k]
     end
 
     old.each do |k,v|
+      pink << g[k]
       if indies.include? k then
         purple << g[k]
       else
