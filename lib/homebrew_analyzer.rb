@@ -12,7 +12,7 @@ class HomebrewAnalyzer < DepAnalyzer
     puts "scanning installed ports"
     ports = normal `brew list #{SHH}`
     puts "scanning installed casks"
-    self.casks = normal `brew cask list #{SHH}`
+    self.casks = normal `brew list --cask #{SHH}`
     ports + casks
   end
 
@@ -21,15 +21,26 @@ class HomebrewAnalyzer < DepAnalyzer
     puts "scanning outdated ports"
     ports = normal `brew outdated #{SHH}`
     puts "scanning outdated casks"
-    casks = normal `brew cask outdated #{SHH}`
+    casks = normal `brew outdated --cask #{SHH}`
     ports + casks
   end
 
   def alldeps
-    @alldeps ||= `brew deps --installed`
-      .lines
-      .map { |l| k, *v = l.delete(":").split; [clean(k), v] }
-      .to_h
+    # there's YET ANOTHER bug in homebrew whereby `brew deps -1
+    # --installed` output is painfully different from all other output:
+    #
+    # % brew deps -1 --for-each pango
+    #   pango: cairo fontconfig freetype fribidi glib harfbuzz
+    # % brew deps -1 --installed | grep pango
+    #   pango: cairo
+
+    @alldeps ||= begin
+      full_names = `brew list --full-name`.split
+      `brew deps -n1 --for-each #{full_names.join " "}`
+        .lines
+        .map { |l| k, *v = l.delete(":").split; [clean(k), v] }
+        .to_h
+    end
   end
 
   def deps port
