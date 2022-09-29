@@ -1,3 +1,14 @@
+=== 2.11.0 / 2022-09-29
+
+* 2 minor enhancements:
+
+  * Added -r to bin/graph to rotate the image 90 degrees.
+  * Trying to improve the output of dep_analyzer (rects + better coloring).
+
+* 1 bug fix:
+
+  * Fixes for homebrew_analyzer to deal with homebrew changes / yet-more-bugs.
+
 === 2.10.0 / 2020-02-09
 
 * 3 minor enhancements:
