@@ -420,7 +420,7 @@ class Graph
     result = []
 
     type = graph ? "subgraph " : "digraph "
-    type << "\"#{name}\"" if name and !name.empty?
+    type = "%s%p" % [type, name] if name and !name.empty?
     result << type
     result << "  {"
 
